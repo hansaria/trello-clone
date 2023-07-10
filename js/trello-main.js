@@ -1,34 +1,36 @@
+/** @format */
+
 (function () {
-  "use strict";
+  'use strict';
 
   //Board constructor object and assign some properties to its prototype
   function Board(title, lists, cards) {
-    var nextId = 0;
+    let nextId = 0;
 
     this.title = title;
     this.lists = lists ?? [];
     this.cards = cards ?? {};
 
-    this.node = document.createElement("div");
-    this.titleNode = document.createElement("div");
-    this.listsNode = document.createElement("div");
+    this.node = document.createElement('div');
+    this.titleNode = document.createElement('div');
+    this.listsNode = document.createElement('div');
 
-    this.node.id = "board";
-    this.titleNode.id = "trello-title-board";
-    this.listsNode.id = "trello-canvas-board";
+    this.node.id = 'board';
+    this.titleNode.id = 'trello-title-board';
+    this.listsNode.id = 'trello-canvas-board';
 
     // new list title form
     this.titleFormNode = buildListTitleForm();
     this.titleNode.appendChild(document.createTextNode(this.title));
 
     this.getNextId = function () {
-      return "_" + (nextId++).toString();
+      return '_' + (nextId++).toString();
     };
   }
 
   Board.prototype.render = function () {
-    this.lists.push(new List(this, "Add a list...", 0, true));
-    for (var i = 0; i < this.lists.length; ++i) {
+    this.lists.push(new List(this, 'Add a list...', 0, true));
+    for (let i = 0; i < this.lists.length; ++i) {
       this.listsNode.appendChild(this.lists[i].node);
     }
     this.lists[this.lists.length - 1].node.appendChild(this.titleFormNode);
@@ -41,12 +43,12 @@
     this.cards[card.id] = {
       card: card,
       list: card.list,
-      index: index
+      index: index,
     };
   };
 
   Board.prototype.reregisterSubsequent = function (list, index, shift) {
-    for (var i = index; i < list.cards.length; ++i) {
+    for (let i = index; i < list.cards.length; ++i) {
       this.registerCard(list.cards[i], i + shift);
     }
   };
@@ -55,11 +57,11 @@
     delete this.cards[card.id];
   };
 
-  document.getElementById("card-edit-close").onclick = cardEdit.close;
+  document.getElementById('card-edit-close').onclick = cardEdit.close;
 
-  document.getElementById("card-edit-submit").onclick = cardEdit.submit;
+  document.getElementById('card-edit-submit').onclick = cardEdit.submit;
 
-  document.getElementById("card-edit-delete").onclick = cardDeleteTrello.delete;
+  document.getElementById('card-edit-delete').onclick = cardDeleteTrello.delete;
 
   cardEdit.windowOverlay.onclick = cardEdit.close;
 
@@ -72,11 +74,11 @@
 
   //Onloading the document render the board.The code starts from here
   document.body.onload = function () {
-    var title = "Add New Board",
+    let title = 'Add New Board',
       board = new Board(title);
 
     board.render();
-    document.getElementById("container").appendChild(board.node);
+    document.getElementById('container').appendChild(board.node);
     currentBoard = board;
   };
 })();

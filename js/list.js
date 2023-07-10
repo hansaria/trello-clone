@@ -1,11 +1,13 @@
+/** @format */
+
 //this function will build the list node
 function buildListTitleNode() {
-  var node = document.createElement("div");
+  let node = document.createElement('div');
   node.innerHTML =
     '<span class="list-title-container">' +
     '<div class="list-title-text"></div>' +
     '<input class="list-delete-icon-button" type="button" value="X"/>' +
-    "</span>";
+    '</span>';
   return node;
 }
 
@@ -14,25 +16,21 @@ function List(board, title, index, dummyList) {
   this.dummyList = dummyList;
   this.title = title;
   this.index = index;
-  this.node = document.createElement("div");
+  this.node = document.createElement('div');
   this.titleNode = buildListTitleNode();
-  this.cardsNode = document.createElement("div");
-  this.node.classList.add("list");
-  this.titleNode.classList.add("list-title");
-  this.cardsNode.classList.add("list-cards");
-  this.titleNode.setAttribute("list-index", index);
-  this.titleNode
-    .getElementsByClassName("list-title-text")[0]
-    .appendChild(document.createTextNode(this.title));
+  this.cardsNode = document.createElement('div');
+  this.node.classList.add('list');
+  this.titleNode.classList.add('list-title');
+  this.cardsNode.classList.add('list-cards');
+  this.titleNode.setAttribute('list-index', index);
+  this.titleNode.getElementsByClassName('list-title-text')[0].appendChild(document.createTextNode(this.title));
   if (dummyList) {
-    this.titleNode.getElementsByClassName(
-      "list-delete-icon-button"
-    )[0].style.display = "none";
+    this.titleNode.getElementsByClassName('list-delete-icon-button')[0].style.display = 'none';
   }
   this.node.appendChild(this.titleNode);
 
   if (!dummyList) {
-    var dummyCard = new Card(this, "Add a card...", "", true, 0);
+    let dummyCard = new Card(this, 'Add a card...', '', true, 0);
 
     this.titleNode.draggable = true;
     this.cards = [dummyCard];
@@ -41,7 +39,7 @@ function List(board, title, index, dummyList) {
     // new card title form
     this.titleFormNode = buildCardTitleForm();
 
-    for (var i = 0; i < this.cards.length; ++i) {
+    for (let i = 0; i < this.cards.length; ++i) {
       this.cardsNode.appendChild(this.cards[i].node);
     }
 
@@ -54,9 +52,9 @@ function List(board, title, index, dummyList) {
 
   // drag-drop handlers
   this.titleNode.ondragstart = function (evt) {
-    var index = parseInt(evt.target.getAttribute("list-index"), 10);
+    let index = parseInt(evt.target.getAttribute('list-index'), 10);
     dragTracker.list = currentBoard.lists[index];
-    evt.dataTransfer.effectAllowed = "move";
+    evt.dataTransfer.effectAllowed = 'move';
   };
 
   this.titleNode.ondragover = function (evt) {
@@ -66,8 +64,8 @@ function List(board, title, index, dummyList) {
   };
 
   this.titleNode.ondrop = function (evt) {
-    var sourceIndex = dragTracker.list.index,
-      targetIndex = parseInt(this.getAttribute("list-index"), 10),
+    let sourceIndex = dragTracker.list.index,
+      targetIndex = parseInt(this.getAttribute('list-index'), 10),
       numLists = board.lists.length,
       i;
 
@@ -76,23 +74,20 @@ function List(board, title, index, dummyList) {
     }
 
     board.listsNode.removeChild(dragTracker.list.node);
-    board.listsNode.insertBefore(
-      dragTracker.list.node,
-      board.lists[targetIndex].node
-    );
+    board.listsNode.insertBefore(dragTracker.list.node, board.lists[targetIndex].node);
 
     for (i = sourceIndex; i < numLists - 1; ++i) {
       board.lists[i] = board.lists[i + 1];
-      board.lists[i].titleNode.setAttribute("list-index", i);
+      board.lists[i].titleNode.setAttribute('list-index', i);
       board.lists[i].index = i;
     }
     for (i = numLists - 1; i > targetIndex; --i) {
       board.lists[i] = board.lists[i - 1];
-      board.lists[i].titleNode.setAttribute("list-index", i);
+      board.lists[i].titleNode.setAttribute('list-index', i);
       board.lists[i].index = i;
     }
     board.lists[targetIndex] = dragTracker.list;
-    board.lists[targetIndex].titleNode.setAttribute("list-index", targetIndex);
+    board.lists[targetIndex].titleNode.setAttribute('list-index', targetIndex);
     board.lists[targetIndex].index = targetIndex;
     evt.preventDefault();
   };
