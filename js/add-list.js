@@ -1,22 +1,22 @@
+/** @format */
+
 //This function will called on adding the list on the board
 function addListTrello(board) {
   return function () {
-    var titleInput = document.getElementById("trello-list-title-input");
+    let titleInput = document.getElementById('trello-list-title-input');
 
-    document.getElementById(
-      "trello-list-title-submit"
-    ).onclick = titleButtonClick;
-    board.titleFormNode.style.display = "block";
+    document.getElementById('trello-list-title-submit').onclick = titleButtonClick;
+    board.titleFormNode.style.display = 'block';
     titleInput.focus();
 
     function titleButtonClick(evt) {
       evt.preventDefault();
-      var title = titleInput.value.trim(),
+      let title = titleInput.value.trim(),
         index = board.lists.length - 1,
         list;
 
-      board.titleFormNode.style.display = "none";
-      titleInput.value = "";
+      board.titleFormNode.style.display = 'none';
+      titleInput.value = '';
       if (!title) {
         return;
       }
@@ -24,18 +24,15 @@ function addListTrello(board) {
       list = new List(board, title, index);
 
       // Attach delete action with the delete icon
-      var deleteIconEle = list.node.getElementsByClassName(
-        "list-delete-icon-button"
-      )[0];
+      let deleteIconEle = list.node.getElementsByClassName('list-delete-icon-button')[0];
       deleteIconEle.onclick = function (evt) {
-        console.log("List delete click:: Current Board:", currentBoard);
         evt.stopPropagation();
         return listDeleteTrello.deleteByIcon(list);
       };
 
       board.lists.splice(index, 0, list);
       board.listsNode.insertBefore(list.node, board.lists[index + 1].node);
-      board.lists[index + 1].titleNode.setAttribute("list-index", index + 1);
+      board.lists[index + 1].titleNode.setAttribute('list-index', index + 1);
     }
   };
 }

@@ -1,17 +1,19 @@
-var dragTracker = {
+/** @format */
+
+let dragTracker = {
   id: undefined,
-  list: undefined
+  list: undefined,
 };
 
 //this function will build the card node
 function buildCardNode() {
-  var node = document.createElement("div");
+  let node = document.createElement('div');
   node.draggable = true;
   node.innerHTML =
     '<span class="card-title-container">' +
     '<div class="card-title"></div>' +
     '<input class="card-delete-icon-button" type="button" value="X"/>' +
-    "</span>" +
+    '</span>' +
     '<div class="card-description"></div>';
   return node;
 }
@@ -25,15 +27,10 @@ function Card(list, title, description, hideDeleteIcon = false) {
   this.title = title;
   this.description = description;
   this.node = buildCardNode();
-  this.titleNode = this.node.getElementsByClassName("card-title")[0];
-  this.descriptionNode = this.node.getElementsByClassName(
-    "card-description"
-  )[0];
-  var deleteIconEle = this.node.getElementsByClassName(
-    "card-delete-icon-button"
-  )[0];
+  this.titleNode = this.node.getElementsByClassName('card-title')[0];
+  this.descriptionNode = this.node.getElementsByClassName('card-description')[0];
+  let deleteIconEle = this.node.getElementsByClassName('card-delete-icon-button')[0];
   deleteIconEle.onclick = function (evt) {
-    console.log("Here", evt);
     evt.stopPropagation();
     cardEdit.card = this;
     cardEdit.titleNode.value = this.title;
@@ -41,10 +38,10 @@ function Card(list, title, description, hideDeleteIcon = false) {
     return cardDeleteTrello.deleteByIcon(this);
   };
   if (hideDeleteIcon) {
-    deleteIconEle.style.display = "none";
+    deleteIconEle.style.display = 'none';
   }
-  this.node.classList.add("card");
-  this.node.setAttribute("card-id", this.id);
+  this.node.classList.add('card');
+  this.node.setAttribute('card-id', this.id);
   this.titleNode.appendChild(document.createTextNode(this.title));
   this.descriptionNode.appendChild(document.createTextNode(this.description));
 
@@ -54,7 +51,7 @@ function Card(list, title, description, hideDeleteIcon = false) {
   this.node.ondragstart = (function (id) {
     return function (evt) {
       dragTracker.id = id;
-      evt.dataTransfer.effectAllowed = "move";
+      evt.dataTransfer.effectAllowed = 'move';
     };
   })(this.id);
 
@@ -66,8 +63,8 @@ function Card(list, title, description, hideDeleteIcon = false) {
 
   this.node.ondrop = (function (board) {
     return function (evt) {
-      var id = dragTracker.id,
-        targetId = this.getAttribute("card-id"), // 'this' is target of drop
+      let id = dragTracker.id,
+        targetId = this.getAttribute('card-id'), // 'this' is target of drop
         source = board.cards[id],
         target = board.cards[targetId];
 

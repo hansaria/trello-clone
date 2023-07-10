@@ -1,12 +1,13 @@
-/*
- This function deletes the card
+/**
+ * This function deletes the card
+ *
+ * @format
  */
-var cardDeleteTrello = {};
-var currentBoard;
+
+let cardDeleteTrello = {};
 
 cardDeleteTrello.delete = function () {
-  console.log("After delete click : ", cardEdit);
-  var index = currentBoard.cards[cardEdit.card.id].index;
+  let index = currentBoard.cards[cardEdit.card.id].index;
 
   currentBoard.unregisterCard(cardEdit.card);
   currentBoard.reregisterSubsequent(cardEdit.card.list, index + 1, -1);
@@ -19,9 +20,7 @@ cardDeleteTrello.delete = function () {
 };
 
 cardDeleteTrello.deleteByIcon = function (card) {
-  console.log("current cards : ", currentBoard);
-  console.log("After delete click : ", card);
-  var index = currentBoard.cards[card.id].index;
+  let index = currentBoard.cards[card.id].index;
 
   currentBoard.unregisterCard(card);
   currentBoard.reregisterSubsequent(card.list, index + 1, -1);

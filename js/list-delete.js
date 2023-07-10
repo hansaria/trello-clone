@@ -4,8 +4,8 @@
  * @format
  */
 
-var listDeleteTrello = {};
-var currentBoard;
+let listDeleteTrello = {};
+let currentBoard;
 
 listDeleteTrello.deleteByIcon = function (list) {
   // Remove from list arr
@@ -16,5 +16,4 @@ listDeleteTrello.deleteByIcon = function (list) {
   list.cards.forEach((card) => {
     currentBoard.unregisterCard(card);
   });
-  console.log("Board After list delete  : ", currentBoard);
 };
